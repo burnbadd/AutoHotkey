@@ -1,4 +1,4 @@
-;Requires AutoHotkey v2.0
+#Requires AutoHotkey v2.0
 
 #SingleInstance
 global state:=0
@@ -23,15 +23,15 @@ $~Ctrl up::{
 ^o::^PgDn ;switch to next tab
 ^u::^PgUp ;switch to previous tab
 
+^i::^BackSpace ;Backspace
 ^h::^Left ;Previous word
 ^l::^Right ;Next word
-
 ^j::Down ;Down arrow key
 ^k::Up ;Up arrow key
+^;::Enter ;Enter
 
-^;::^l ;Chrome address bar
-
-!d::#d ;Go back to desktop
+!d::#d ;Alt-D to Win-D, Go back to desktop
+!Space::Send "#s" ;Alt-Space to Windows key
 
 !x::!F4 ;close current window
 
