@@ -37,13 +37,25 @@ $~Ctrl up::{
 
 ;USING SPACE AS MODIFIER =================================================================
 ~Space & d::#d ;Go back to desktop
-~Space & s::Send "#s" ;Alt-Space to Windows key
+~Space & w::LWin ;Windows key
 ~Space & x::!F4 ;close current window
 ~Space & Tab::AltTab
 
+;File Explorer
+~Space & e::{ 
+    ;if it's is already running
+    if WinExist('ahk_class CabinetWClass'){
+        ;if it's in front, minimise it, or else, bring it to front
+        WinActive()? WinMinimize() : WinActivate()
+    }
+    ;if it's not running, launch it
+    else
+        Run "explorer.exe"
+}
+
 ;Chrome
-~Space & c::{ 
-    ;if chrome is already running
+~Space & f::{ 
+    ;if it's is already running
     if WinExist("ahk_exe chrome.exe"){
         ;if it's in front, minimise it, or else, bring it to front
         WinActive()? WinMinimize() : WinActivate()
@@ -53,14 +65,26 @@ $~Ctrl up::{
         Run "chrome.exe"
 }
 
-;File Explorer
-~Space & e::{ 
-    ;if chrome is already running
-    if WinExist('ahk_class CabinetWClass'){
+;VsCode-Insider
+~Space & v::{ 
+    ;if it's is already running
+    if WinExist("ahk_exe Code - Insiders.exe"){
         ;if it's in front, minimise it, or else, bring it to front
         WinActive()? WinMinimize() : WinActivate()
     }
     ;if it's not running, launch it
     else
-        Run "explorer.exe"
+        Run "Code - Insiders.exe"
+}
+
+;Spotify
+~Space & s::{ 
+    ;if it's is already running
+    if WinExist("ahk_exe Spotify.exe"){
+        ;if it's in front, minimise it, or else, bring it to front
+        WinActive()? WinMinimize() : WinActivate()
+    }
+    ;if it's not running, launch it
+    else
+        Run "Spotify.exe"
 }
