@@ -36,10 +36,24 @@ $~Ctrl up::{
 ^k::Up ;Up arrow key
 
 ;USING SPACE AS MODIFIER =================================================================
+;The ~ symbol before the Space preserves the full original behaviour of the spacebar
+;The only problem is that a normal Space: " " will be entered whenever these hotkeys are pressed 
+
 ~Space & d::#d ;Go back to desktop
-~Space & w::LWin ;Windows key
 ~Space & x::!F4 ;close current window
 ~Space & Tab::AltTab
+
+;Start Menu
+~Space & w::{ 
+    ;if it's opened, close it
+    if WinActive('ahk_class Windows.UI.Core.CoreWindow'){
+        ;Using Esc to close it
+        Send "{Esc}"
+    }
+    ;if it's not opened, launch the search function
+    else
+        Send "{LWin Down}{LWin Up}"
+}
 
 ;File Explorer
 ~Space & e::{ 
@@ -74,7 +88,7 @@ $~Ctrl up::{
     }
     ;if it's not running, launch it
     else
-        Run "Code - Insiders.exe"
+        Run "C:\Users\lawre\AppData\Local\Programs\Microsoft VS Code Insiders\Code - Insiders.exe"
 }
 
 ;Spotify
@@ -82,7 +96,13 @@ $~Ctrl up::{
     ;if it's is already running
     if WinExist("ahk_exe Spotify.exe"){
         ;if it's in front, minimise it, or else, bring it to front
-        WinActive()? WinMinimize() : WinActivate()
+        if WinActive(){
+            Send "{Space}" 
+            WinMinimize() 
+        }
+        else{
+            WinActivate()
+        }
     }
     ;if it's not running, launch it
     else
