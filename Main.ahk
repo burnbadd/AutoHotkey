@@ -35,25 +35,18 @@ $~Ctrl up::{
 ^k::Up ;Up arrow key
 
 ;using space as modifier
-Space::return
-Space Up::{
-    if (A_PriorKey = "Space")
-        Send "{Space}"
-    return
-}
-
-Space & d::#d ;Alt-D to Win-D, Go back to desktop
-Space & s::Send "#s" ;Alt-Space to Windows key
-Space & x::!F4 ;close current window
-Space & Tab::!Tab
+~Space & d::#d ;Go back to desktop
+~Space & s::Send "#s" ;Alt-Space to Windows key
+~Space & x::!F4 ;close current window
+~Space & Tab::AltTab
 
 ;LAUNCHING APPLICATIONS==================================
 ;Chrome
-Space & c::{ 
+~Space & c::{ 
     if WinExist("ahk_exe chrome.exe")
         WinActivate 
     else
         Run "chrome.exe"
 }
 ;File Explorer
-Space & e::WinExist('ahk_class CabinetWClass') ? WinActivate() : Run('explorer')
+~Space & e::WinExist('ahk_class CabinetWClass') ? WinActivate() : Run('explorer')
