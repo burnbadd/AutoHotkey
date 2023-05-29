@@ -1,8 +1,8 @@
 #Requires AutoHotkey v2.0
-
 #SingleInstance
-global state:=0
 InstallKeybdHook
+
+global state:=0
 $~*Ctrl:: {
     global state
     if (!state){ 
@@ -34,19 +34,26 @@ $~Ctrl up::{
 ^j::Down ;Down arrow key
 ^k::Up ;Up arrow key
 
-!d::#d ;Alt-D to Win-D, Go back to desktop
-!Space::Send "#s" ;Alt-Space to Windows key
-
-!x::!F4 ;close current window
-
-;Launching applications
-!c::{ ;chrome
-    if WinExist("ahk_exe chrome.exe"){
-        WinActivate 
-    }
-    else{
-        Run "chrome.exe"
-    }
+;using space as modifier
+Space::return
+Space Up::{
+    if (A_PriorKey = "Space")
+        Send "{Space}"
+    return
 }
 
-!e::WinExist('ahk_class CabinetWClass') ? WinActivate() : Run('explorer')
+Space & d::#d ;Alt-D to Win-D, Go back to desktop
+Space & s::Send "#s" ;Alt-Space to Windows key
+Space & x::!F4 ;close current window
+Space & Tab::!Tab
+
+;LAUNCHING APPLICATIONS==================================
+;Chrome
+Space & c::{ 
+    if WinExist("ahk_exe chrome.exe")
+        WinActivate 
+    else
+        Run "chrome.exe"
+}
+;File Explorer
+Space & e::WinExist('ahk_class CabinetWClass') ? WinActivate() : Run('explorer')
