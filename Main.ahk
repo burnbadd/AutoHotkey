@@ -2,6 +2,7 @@
 #SingleInstance
 InstallKeybdHook
 
+;Ctrl remaps================================================================
 global state:=0
 $~*Ctrl:: {
     global state
@@ -34,19 +35,32 @@ $~Ctrl up::{
 ^j::Down ;Down arrow key
 ^k::Up ;Up arrow key
 
-;using space as modifier
+;USING SPACE AS MODIFIER =================================================================
 ~Space & d::#d ;Go back to desktop
 ~Space & s::Send "#s" ;Alt-Space to Windows key
 ~Space & x::!F4 ;close current window
 ~Space & Tab::AltTab
 
-;LAUNCHING APPLICATIONS==================================
 ;Chrome
 ~Space & c::{ 
-    if WinExist("ahk_exe chrome.exe")
-        WinActivate 
+    ;if chrome is already running
+    if WinExist("ahk_exe chrome.exe"){
+        ;if it's in front, minimise it, or else, bring it to front
+        WinActive()? WinMinimize() : WinActivate()
+    }
+    ;if it's not running, launch it
     else
         Run "chrome.exe"
 }
+
 ;File Explorer
-~Space & e::WinExist('ahk_class CabinetWClass') ? WinActivate() : Run('explorer')
+~Space & e::{ 
+    ;if chrome is already running
+    if WinExist('ahk_class CabinetWClass'){
+        ;if it's in front, minimise it, or else, bring it to front
+        WinActive()? WinMinimize() : WinActivate()
+    }
+    ;if it's not running, launch it
+    else
+        Run "explorer.exe"
+}
