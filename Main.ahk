@@ -29,22 +29,33 @@ $~Ctrl up::{
 ^i::^BackSpace ;Backspace
 ^;::Enter ;Enter
 
-;Arrow keys alternatives
-^h::^Left ;Previous word
-^l::^Right ;Next word
+;Arrow keys alternatives=====
+
+;Previous/Next Word
+^h::^Left
+^l::^Right
 ^j::Down ;Down arrow key
 ^k::Up ;Up arrow key
+
+;vim esc mapping
+~j & k:: Send "{Backspace}{Esc}"
 
 ;USING SPACE AS MODIFIER =================================================================
 ;The ~ symbol before the Space preserves the full original behaviour of the spacebar
 ;The only problem is that a normal Space: " " will be entered whenever these hotkeys are pressed 
 
-~Space & d::#d ;Go back to desktop
-~Space & x::!F4 ;close current window
+~Space & h::#d ;Go back to desktop (H for Home)
+~Space & 6::!F4 ;close current window
 ~Space & Tab::AltTab
 
+~Space & 2::#1
+~Space & 3::#2
+; Spotify
+; ~Space & 4::#3
+~Space & 5::#4
+
 ;Start Menu
-~Space & w::{ 
+~Space & 1::{ 
     ;if it's opened, close it
     if WinActive('ahk_class Windows.UI.Core.CoreWindow'){
         ;Using Esc to close it
@@ -55,44 +66,8 @@ $~Ctrl up::{
         Send "{LWin Down}{LWin Up}"
 }
 
-;File Explorer
-~Space & e::{ 
-    ;if it's is already running
-    if WinExist('ahk_class CabinetWClass'){
-        ;if it's in front, minimise it, or else, bring it to front
-        WinActive()? WinMinimize() : WinActivate()
-    }
-    ;if it's not running, launch it
-    else
-        Run "explorer.exe"
-}
-
-;Chrome
-~Space & f::{ 
-    ;if it's is already running
-    if WinExist("ahk_exe chrome.exe"){
-        ;if it's in front, minimise it, or else, bring it to front
-        WinActive()? WinMinimize() : WinActivate()
-    }
-    ;if it's not running, launch it
-    else
-        Run "chrome.exe"
-}
-
-;VsCode-Insider
-~Space & v::{ 
-    ;if it's is already running
-    if WinExist("ahk_exe Code - Insiders.exe"){
-        ;if it's in front, minimise it, or else, bring it to front
-        WinActive()? WinMinimize() : WinActivate()
-    }
-    ;if it's not running, launch it
-    else
-        Run "C:\Users\lawre\AppData\Local\Programs\Microsoft VS Code Insiders\Code - Insiders.exe"
-}
-
 ;Spotify
-~Space & s::{ 
+~Space & 4::{ 
     ;if it's is already running
     if WinExist("ahk_exe Spotify.exe"){
         ;if it's in front, minimise it, or else, bring it to front
