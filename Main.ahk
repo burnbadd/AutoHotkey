@@ -67,7 +67,7 @@ $~Space up::{
 ;The ~ symbol before the Space preserves the full original behaviour of the spacebar
 ;The only problem is that a normal Space: " " will be entered whenever these hotkeys are pressed 
 
-~Space & h::#d ;Go back to desktop (H for Home)
+; ~Space & h::#d ;Go back to desktop (H for Home)
 ~Space & Esc::!F4 ;close current window
 ~Space & Tab::AltTab
 
