@@ -71,36 +71,36 @@ $~Space up::{
 ~Space & Esc::!F4 ;close current window
 ~Space & Tab::AltTab
 
-;Launching Start Menu
-~Space & 1::{ 
-    ;if it's opened, close it
-    if WinActive('ahk_class Windows.UI.Core.CoreWindow'){
-        ;Using Esc to close it
-        Send "{Esc}"
-    }
-    ;if it's not opened, launch the search function
-    else
-        Send "{LWin Down}{LWin Up}"
-}
+; ;Launching Start Menu
+; ~Space & 1::{ 
+;     ;if it's opened, close it
+;     if WinActive('ahk_class Windows.UI.Core.CoreWindow'){
+;         ;Using Esc to close it
+;         Send "{Esc}"
+;     }
+;     ;if it's not opened, launch the search function
+;     else
+;         Send "{LWin Down}{LWin Up}"
+; }
 
-;Launching applications on taskbar
-~Space & 2::#1
-~Space & 3::#2
-; ~Space & 4::#3
-~Space & 4::{ 
-    ;if it's is already running
-    if WinExist("ahk_exe Spotify.exe"){
-        ;if it's in front, press another space to resume the music before minimising it
-        if WinActive(){
-            Send "{Space}" 
-            WinMinimize() 
-        }
-        else{
-            WinActivate()
-        }
-    }
-    ;if it's not running, launch it
-    else
-        Run "Spotify.exe"
-}
-~Space & 5::#4
+; ;Launching applications on taskbar
+; ~Space & 2::#1
+; ~Space & 3::#2
+; ; ~Space & 4::#3
+; ~Space & 4::{ 
+;     ;if it's is already running
+;     if WinExist("ahk_exe Spotify.exe"){
+;         ;if it's in front, press another space to resume the music before minimising it
+;         if WinActive(){
+;             Send "{Space}" 
+;             WinMinimize() 
+;         }
+;         else{
+;             WinActivate()
+;         }
+;     }
+;     ;if it's not running, launch it
+;     else
+;         Run "Spotify.exe"
+; }
+; ~Space & 5::#4
