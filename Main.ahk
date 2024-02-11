@@ -32,75 +32,45 @@ $~Ctrl up::{
     state := 0 
     cRelased_bool := True
 }
-
 ^Space::#Space ;change input language
 
-;Switching Tabs
-^o::^PgDn ;switch to next tab
-^u::^PgUp ;switch to previous tab
+;==============================================================
+Alt::return
 
-;Typing 
-^i::^BackSpace ;Backspace whole word
-^p::BackSpace ;Backspace
-^;::Enter ;Enter
+global AltTabMode := false
+#HotIf GetKeyState("LAlt", "P")
+    ; LAlt & Tab:: AltTab
+    o::^PgDn ;switch to next tab
+    u::^PgUp ;switch to previous tab
 
-^h::^Left ;Go to Prvious work
-^l::^Right ;Go to Next word
-^j::^Down ;Down arrow key
-^k::^Up ;Up arrow key
+    ;Typing 
+    i::^BackSpace ;Backspace whole word
+    p::BackSpace ;Backspace
+    `;::Enter ;Enter
 
-;vim esc mapping
-~j & k:: Send "{Backspace}{Esc}"
+    h::^Left ;Go to Prvious work
+    l::^Right ;Go to Next word
+    j::Down ;Down arrow key
+    k::Up ;Up arrow key
 
-;USING SPACE AS A MODIFIER
-
-;Make sure space doesn't start/stop the music when the the modifier is used in Spotify
-#HotIf WinActive("ahk_exe Spotify.exe")
-Space::return
-$~Space up::{
-    if (instr(A_PriorKey, "Space")){
-        Send "{Space}"
+    Tab::{ ;Dealing with AltTab windows task viewer
+        global AltTabMode 
+        if not AltTabMode{
+            Send "{Alt down}" ;enters alttab mode by pressing down alt
+            AltTabMode := true
+            Send "{Tab}" 
+        }
+        else{
+            Send "{Tab}"
+        }
     }
-}
-#HotIf ;exit the HotIf statement
+    Alt up:: {
+        if AltTabMode{
+            Send "{Alt up}"
+            global AltTabMode
+            AltTabMode := false
+        }
+    }
 
-;The ~ symbol before the Space preserves the full original behaviour of the spacebar
-;The only problem is that a normal Space: " " will be entered whenever these hotkeys are pressed 
 
-; ~Space & h::#d ;Go back to desktop (H for Home)
-~Space & Esc::!F4 ;close current window
-~Space & Tab::AltTab
-
-; ;Launching Start Menu
-; ~Space & 1::{ 
-;     ;if it's opened, close it
-;     if WinActive('ahk_class Windows.UI.Core.CoreWindow'){
-;         ;Using Esc to close it
-;         Send "{Esc}"
-;     }
-;     ;if it's not opened, launch the search function
-;     else
-;         Send "{LWin Down}{LWin Up}"
-; }
-
-; ;Launching applications on taskbar
-; ~Space & 2::#1
-; ~Space & 3::#2
-; ; ~Space & 4::#3
-; ~Space & 4::{ 
-;     ;if it's is already running
-;     if WinExist("ahk_exe Spotify.exe"){
-;         ;if it's in front, press another space to resume the music before minimising it
-;         if WinActive(){
-;             Send "{Space}" 
-;             WinMinimize() 
-;         }
-;         else{
-;             WinActivate()
-;         }
-;     }
-;     ;if it's not running, launch it
-;     else
-;         Run "Spotify.exe"
-; }
-; ~Space & 5::#4
+#HotIf
