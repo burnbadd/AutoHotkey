@@ -35,9 +35,9 @@ $~Ctrl up::{
 ^Space::#Space ;change input language
 
 ;==============================================================
-Alt::return
+LAlt::return
+LAlt & Tab::AltTab 
 
-global AltTabMode := false
 #HotIf GetKeyState("LAlt", "P")
     ; LAlt & Tab:: AltTab
     o::^PgDn ;switch to next tab
@@ -52,25 +52,4 @@ global AltTabMode := false
     l::^Right ;Go to Next word
     j::Down ;Down arrow key
     k::Up ;Up arrow key
-
-    Tab::{ ;Dealing with AltTab windows task viewer
-        global AltTabMode 
-        if not AltTabMode{
-            Send "{Alt down}" ;enters alttab mode by pressing down alt
-            AltTabMode := true
-            Send "{Tab}" 
-        }
-        else{
-            Send "{Tab}"
-        }
-    }
-    Alt up:: {
-        if AltTabMode{
-            Send "{Alt up}"
-            global AltTabMode
-            AltTabMode := false
-        }
-    }
-
-
 #HotIf
