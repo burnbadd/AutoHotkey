@@ -35,10 +35,11 @@ $~Ctrl up::{
 ^Space::#Space ;change input language
 
 ;==============================================================
-LAlt::return
-LAlt & Tab::AltTab 
+Alt::return
+A_MenuMaskKey := "vkE8" ;so alt tab can work
 
 #HotIf GetKeyState("LAlt", "P")
+    global AltTabMode := false
     ; LAlt & Tab:: AltTab
     o::^PgDn ;switch to next tab
     u::^PgUp ;switch to previous tab
@@ -52,4 +53,24 @@ LAlt & Tab::AltTab
     l::^Right ;Go to Next word
     j::Down ;Down arrow key
     k::Up ;Up arrow key
+
+    Tab::{ ;Dealing with AltTab windows task viewer
+        global AltTabMode 
+        if not AltTabMode{
+            AltTabMode := true
+            Send "{Alt down}{Tab}" ;enters alttab mode by pressing down alt
+        }
+        else{
+            Send "{Tab}"
+        }
+    }
+    Alt up:: {
+        if AltTabMode{
+            Send "{Alt up}"
+            global AltTabMode
+            AltTabMode := false
+        }
+    }
+
+
 #HotIf
