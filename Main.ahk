@@ -38,7 +38,7 @@ $~Ctrl up::{
 Alt::return
 A_MenuMaskKey := "vkE8" ;so alt tab can work
 
-#HotIf GetKeyState("LAlt", "P")
+#HotIf GetKeyState("Alt", "P")
     global AltTabMode := false
     ; LAlt & Tab:: AltTab
     o::^PgDn ;switch to next tab
