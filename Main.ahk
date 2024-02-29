@@ -65,11 +65,9 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
         }
     }
     Alt up:: {
-        if AltTabMode{
-            Send "{Alt up}"
-            global AltTabMode
-            AltTabMode := false
-        }
+        Send "{Alt up}"
+        global AltTabMode
+        AltTabMode := false
     }
 
 
