@@ -59,9 +59,11 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
     k::Up ;Up arrow key
 
     r::#r ;windows run
-    `::if !WinActive("ahk_exe Code.exe"){ ;runs windows terminal
+    `::{
+        if !WinActive("ahk_exe Code.exe"){ ;runs windows terminal
             run "wt.exe"
         }
+    }
     x::WinClose "A" ;closes the active window
 
     Tab::{ ;Dealing with AltTab windows task viewer
