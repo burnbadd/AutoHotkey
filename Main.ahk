@@ -63,6 +63,9 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
         if !WinActive("ahk_exe Code.exe"){ ;runs windows terminal
             run "wt.exe"
         }
+        else{
+            send "{Ctrl down}``{Ctrl up}" ;vscode keyboard shortcut for terminal
+        }
     }
     x::WinClose "A" ;closes the active window
 
