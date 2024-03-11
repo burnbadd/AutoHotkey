@@ -39,6 +39,7 @@ global AltDownMoment := A_TickCount
 Alt::{
     AltDownMoment := A_TickCount
 }
+^Alt::return ;to use control + arrowkeys through Alt layer key
 
 A_MenuMaskKey := "vkE8" ;so alt tab can work
 #HotIf GetKeyState("Alt", "P")
@@ -52,10 +53,16 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
     p::BackSpace ;Backspace
     `;::Enter ;Enter
 
-    h::^Left ;Go to Prvious work
-    l::^Right ;Go to Next word
+    h::Left ;Go to Prvious work
+    l::Right ;Go to Next word
     j::Down ;Down arrow key
     k::Up ;Up arrow key
+
+    r::#r ;windows run
+    `::if !WinActive("ahk_exe Code.exe"){ ;runs windows terminal
+            run "wt.exe"
+        }
+    x::WinClose "A" ;closes the active window
 
     Tab::{ ;Dealing with AltTab windows task viewer
         global AltTabMode 
