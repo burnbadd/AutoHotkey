@@ -35,9 +35,12 @@ $~Ctrl up::{
 ^Space::#Space ;change input language
 
 ;==============================================================
-Alt::return
-A_MenuMaskKey := "vkE8" ;so alt tab can work
+global AltDownMoment := A_TickCount
+Alt::{
+    AltDownMoment := A_TickCount
+}
 
+A_MenuMaskKey := "vkE8" ;so alt tab can work
 #HotIf GetKeyState("Alt", "P")
     global AltTabMode := false
     ; LAlt & Tab:: AltTab
@@ -68,6 +71,10 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
         Send "{Alt up}"
         global AltTabMode
         AltTabMode := false
+
+        if (instr(A_priorkey, "alt")){
+            send "{LWin}"
+        }
     }
 
 
