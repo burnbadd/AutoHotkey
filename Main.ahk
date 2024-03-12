@@ -1,47 +1,51 @@
 #Requires AutoHotkey v2.0
 #SingleInstance
 InstallKeybdHook
+; $ prevents the Send function from triggering hotkeys
+; ~ When hotkey fires, the original/native function of the key won't be blocked
+; * Hotkey will fire even if other extra keys are pressed down
 
-;Ctrl remaps================================================================
-global state:=0
-global cDown_time := A_TickCount
-global cRelased_bool := true
+/* -------------------------------------------------------------------------- */
+/*                             Ctrl related remaps                            */
+/* -------------------------------------------------------------------------- */
 
-$~*Ctrl:: {
-    global state
-    global cDown_time
-    global cRelased_bool
-    if (!state){ 
-        state := (GetKeyState("Shift", "P") || GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
+; global KeyStates:=0 ;variable that keep tracks of whether other modifiers are pressed, 0 if none are pressed
+
+$~*Ctrl::{
+    global KeyStates
+    if (!KeyStates){ 
+        KeyStates := (GetKeyState("Shift", "P") || GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
     }
-    if (cRelased_bool){
-        cDown_time := A_TickCount
-        cRelased_bool := false
-    }
+    KeyWait "Ctrl"
 }
 
 $~Ctrl up::{
-    global state
-    global cDown_time
-    global cRelased_bool
-    if (instr(A_PriorKey, "control") && !state){
-        if ((A_TickCount-cDown_time)<200){
-            Send "{esc}"
-        }
+    global KeyStates
+    if (A_PriorHotKey=="$~*Ctrl" && !KeyStates && (A_TimeSincePriorHotkey<200)){
+        Send "{esc}"
     }
-    state := 0 
-    cRelased_bool := True
+    KeyStates := 0
 }
+
 ^Space::#Space ;change input language
 
-;==============================================================
-global AltDownMoment := A_TickCount
-Alt::{
-    AltDownMoment := A_TickCount
-}
-^Alt::return ;to use control + arrowkeys through Alt layer key
+/* -------------------------------------------------------------------------- */
+/*                             Alt related remaps                             */
+/* -------------------------------------------------------------------------- */
 
-A_MenuMaskKey := "vkE8" ;so alt tab can work
+Alt::{
+    KeyWait "Alt" ;Hotkey can't be triggered again unless Alt up, This stops Alt from repeatedly firing so AltDownMoment won't be refreshed by virtual repeated fires
+}
+
+^Alt::return 
+;So Alt woudn't be pressed when Ctrl is pressed first
+;to use control + arrowkeys through Alt layer key
+
+^!r::{
+    Send "{Ctrl down}s{Ctrl up}"
+    Reload
+} ;Save and Reload the ahk script, useful when testing and debugging
+
 #HotIf GetKeyState("Alt", "P")
     global AltTabMode := false
     ; LAlt & Tab:: AltTab
@@ -67,7 +71,7 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
             send "{Ctrl down}``{Ctrl up}" ;vscode keyboard shortcut for terminal
         }
     }
-    x::WinClose "A" ;closes the active window
+    esc::WinClose "A" ;closes the active window
 
     1::#1
     2::#2
@@ -91,10 +95,9 @@ A_MenuMaskKey := "vkE8" ;so alt tab can work
         global AltTabMode
         AltTabMode := false
 
-        if (instr(A_priorkey, "alt")){
-            send "{LWin}"
+        if (A_PriorHotKey=='Alt') && (A_TimeSincePriorHotkey<200){
+            Send "{LWin}"
         }
     }
-
 
 #HotIf
