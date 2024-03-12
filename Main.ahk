@@ -9,22 +9,14 @@ InstallKeybdHook
 /*                             Ctrl related remaps                            */
 /* -------------------------------------------------------------------------- */
 
-; global KeyStates:=0 ;variable that keep tracks of whether other modifiers are pressed, 0 if none are pressed
-
 $~*Ctrl::{
-    global KeyStates
-    if (!KeyStates){ 
-        KeyStates := (GetKeyState("Shift", "P") || GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
-    }
     KeyWait "Ctrl"
 }
 
 $~Ctrl up::{
-    global KeyStates
-    if (A_PriorHotKey=="$~*Ctrl" && !KeyStates && (A_TimeSincePriorHotkey<200)){
+    if (A_PriorHotKey=="$~*Ctrl" && (A_TimeSincePriorHotkey<200)){
         Send "{esc}"
     }
-    KeyStates := 0
 }
 
 ^Space::#Space ;change input language
